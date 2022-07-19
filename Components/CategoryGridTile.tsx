@@ -1,10 +1,11 @@
 import {Pressable, View, Text, StyleSheet, Platform} from "react-native";
 
-function CategoryGridTile(props: {title: string, color: string}) {
+function CategoryGridTile(props: {title: string, color: string, onPress: () => void}) {
   return (<View style={{...styles.container, backgroundColor: props.color}}>
     <Pressable
       android_ripple={{color: '#fff'}}
       style={({pressed}: {pressed: boolean}) => [styles.button, pressed ? styles.buttonPressed : null]}
+      onPress={props.onPress}
     >
       <View style={styles.tileView}>
         <Text style={styles.textStyle}>{props.title}</Text>
