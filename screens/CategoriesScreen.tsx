@@ -1,10 +1,10 @@
 import { FlatList } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { CATEGORIES } from "../dummy-data";
+import { CATEGORIES } from "../data/dummy-data";
 import React from "react";
-import CategoryGridTile from "../../Components/CategoryGridTile";
-import { NavigationProps } from "../../App";
-import Category from "../../models/category";
+import CategoryGridTile from "../Components/CategoryGridTile";
+import { NavigationProps } from "../App";
+import Category from "../models/category";
 
 function CategoriesScreen() {
   const navigation = useNavigation<NavigationProps>();

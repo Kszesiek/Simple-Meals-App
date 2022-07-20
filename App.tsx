@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
-import CategoriesScreen from "./data/screens/CategoriesScreen";
-import MealsOverviewScreen from "./data/screens/MealsOverviewScreen";
+import CategoriesScreen from "./screens/CategoriesScreen";
+import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 
 export type StackParamList = {
   "MainCategories": undefined

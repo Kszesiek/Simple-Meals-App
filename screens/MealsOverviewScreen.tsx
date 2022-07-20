@@ -1,9 +1,9 @@
 import {View, StyleSheet, FlatList} from "react-native";
-import { MEALS } from "../dummy-data";
+import { MEALS } from "../data/dummy-data";
 import {useNavigation, useRoute, RouteProp} from "@react-navigation/native";
-import {NavigationProps, StackParamList} from "../../App";
-import MealItem from "../../Components/MealItem";
-import Meal from "../../models/meal";
+import {NavigationProps, StackParamList} from "../App";
+import MealItem from "../Components/MealItem";
+import Meal from "../models/meal";
 
 function MealsOverviewScreen() {
   const navigation = useNavigation<NavigationProps>();
@@ -17,7 +17,7 @@ function MealsOverviewScreen() {
   function renderMealItem(itemData: {item: Meal}) {
     return (
       <View>
-        <MealItem title={itemData.item.title} />
+        <MealItem meal={itemData.item} />
       </View>
     );
   }
