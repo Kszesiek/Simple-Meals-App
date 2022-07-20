@@ -1,9 +1,11 @@
+import { useLayoutEffect } from "react";
 import {View, StyleSheet, FlatList} from "react-native";
-import { MEALS } from "../data/dummy-data";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
 import {useNavigation, useRoute, RouteProp} from "@react-navigation/native";
 import {NavigationProps, StackParamList} from "../App";
 import MealItem from "../Components/MealItem";
 import Meal from "../models/meal";
+import Category from "../models/category";
 
 function MealsOverviewScreen() {
   const navigation = useNavigation<NavigationProps>();
@@ -13,6 +15,15 @@ function MealsOverviewScreen() {
   const displayedMeals = MEALS.filter((mealItem) => {
     return mealItem.categoryIds.indexOf(categoryId) >= 0;
   })
+
+  useLayoutEffect(() => {
+    let category: Category | undefined = CATEGORIES.find(category => category.id == categoryId);
+    if (category === undefined) {
+      category = new Category("undefined", "Unrecognized category", "red");
+    }
+    const categoryTitle: string = category.title;
+    navigation.setOptions({headerTitle: categoryTitle})
+  }, [categoryId, navigation])
 
   function renderMealItem(itemData: {item: Meal}) {
     return (
