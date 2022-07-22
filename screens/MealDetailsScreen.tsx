@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   mealParamListTitle: {
-    paddingVertical: 5,
+    paddingBottom: 5,
     fontSize: 20,
   },
 });
