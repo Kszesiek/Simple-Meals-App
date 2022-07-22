@@ -3,17 +3,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from "@expo/vector-icons";
+import {Provider} from "react-redux";
+
 import CategoriesScreen from "./screens/CategoriesScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
 import FavouritesScreen from "./screens/FavouritesScreen";
-import FavouritesContextProvider from "./store/context/favourites-context";
+import { store } from "./store/redux/store";
 
 // temporarily here
 const colors = {
   main: '#c2b280',
   light: '#f5e4b0',
-  dark: '#918353',
+  dark: '#4d431e',
 }
 
 export type StackParamList = {
@@ -83,7 +85,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <FavouritesContextProvider>
+      <Provider store={store}>
         <NavigationContainer>
           <Tabs.Navigator
             initialRouteName={"MealsStackNavigator"}
@@ -95,7 +97,8 @@ export default function App() {
               tabBarInactiveTintColor: colors.dark,
               tabBarActiveTintColor: colors.dark,
               tabBarActiveBackgroundColor: colors.light,
-              tabBarStyle: {backgroundColor: colors.main},
+              tabBarLabelStyle: {fontSize: 16, paddingBottom: 3},
+              tabBarStyle: {backgroundColor: colors.main, height: 60},
             }}
           >
             <Tabs.Screen
@@ -104,7 +107,7 @@ export default function App() {
               options={{
                 headerShown: false,
                 title: "Meals library",
-                tabBarIcon: ({color, size}) => <Ionicons name="apps-outline" color={color} size={size} />
+                tabBarIcon: ({color, size}) => <Ionicons name="apps-outline" color={color} size={size * 1.2} />
               }}
             />
             <Tabs.Screen
@@ -113,12 +116,12 @@ export default function App() {
               options={{
                 headerShown: false,
                 title: "Favourites",
-                tabBarIcon: ({color, size}) => <Ionicons name="heart-outline" color={color} size={size} />
+                tabBarIcon: ({color, size}) => <Ionicons name="heart-outline" color={color} size={size * 1.2} />
               }}
             />
           </Tabs.Navigator>
         </NavigationContainer>
-      </FavouritesContextProvider>
+      </Provider>
     </>
   );
 };

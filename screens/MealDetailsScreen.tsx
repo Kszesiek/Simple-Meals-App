@@ -1,16 +1,20 @@
-import {useContext, useLayoutEffect} from "react";
+import {useLayoutEffect} from "react";
 import {Alert, Image, Platform, ScrollView, StyleSheet, Text, View} from "react-native";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
+
 import {NavigationProps, StackParamList} from "../App";
 import { HeartButton } from "../Components/FillableButton";
 import {MEALS} from "../data/dummy-data";
 import Meal from "../models/meal";
-import {FavouritesContext} from "../store/context/favourites-context";
+import {useDispatch, useSelector} from "react-redux";
+import { store } from "../store/redux/store";
+import {addFavourite, removeFavourite} from "../store/redux/favourites";
 
 function MealDetailsScreen() {
   const navigation = useNavigation<NavigationProps>();
   const route = useRoute<RouteProp<StackParamList, "MealDetails">>();
-  const favMealsContext = useContext(FavouritesContext);
+  const dispatch = useDispatch();
+  const favouriteMealIds = useSelector((state: typeof store.dispatch.prototype) => state.favouriteMeals.meal_ids);
 
   const mealId: string = route.params.mealId;
   let meal: Meal | undefined = MEALS.find(meal => meal.id === mealId);
@@ -19,7 +23,7 @@ function MealDetailsScreen() {
     Alert.alert("Unrecognized meal", "This meal was not recognized, therefore you can't see its details.");
     return <View />  // doesn't really matter since we do navigation.goBack(), it only needs to be a React component
   }
-  const isMealFavourite: boolean = favMealsContext.meal_ids.includes(mealId);
+  const isMealFavourite: boolean = favouriteMealIds.includes(mealId);
 
   useLayoutEffect(() => {
     meal = MEALS.find(meal => meal.id === mealId);
@@ -33,9 +37,9 @@ function MealDetailsScreen() {
 
   function changeFavouriteStatus() {
     if (isMealFavourite) {
-      favMealsContext.removeFavourite(mealId);
+      dispatch(removeFavourite({mealId: mealId}));
     } else {
-      favMealsContext.addFavourite(mealId);
+      dispatch(addFavourite({mealId: mealId}));
     }
   }
 
