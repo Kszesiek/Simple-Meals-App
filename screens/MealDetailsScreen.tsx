@@ -2,6 +2,7 @@ import {useLayoutEffect} from "react";
 import {Alert, Image, Platform, ScrollView, StyleSheet, Text, View} from "react-native";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {NavigationProps, StackParamList} from "../App";
+import { HeartButton } from "../Components/FillableButton";
 import {MEALS} from "../data/dummy-data";
 import Meal from "../models/meal";
 
@@ -26,6 +27,18 @@ function MealDetailsScreen() {
     }
     navigation.setOptions({headerTitle: meal.title})
   }, [mealId, navigation])
+
+  function headerButtonPressed() {
+    console.log("Pressed!");
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <HeartButton onPress={headerButtonPressed} />
+      }
+    })
+  }, [navigation, headerButtonPressed])
 
   const complexityEmoteMap = {
     'simple': "\u{1F604}",
