@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import {FlatList, StyleSheet} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { CATEGORIES } from "../data/dummy-data";
 import React from "react";
@@ -16,6 +16,7 @@ function CategoriesScreen() {
   }
 
   return <FlatList
+    contentContainerStyle={styles.list}
     data={CATEGORIES}
     keyExtractor={item => item.id}
     renderItem={item => <CategoryGridTile title={item.item.title} color={item.item.color} onPress={() => pressHandler(item.item)} />}
@@ -24,3 +25,10 @@ function CategoriesScreen() {
 }
 
 export default CategoriesScreen;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingTop: 10,
+    paddingBottom: 40,
+  },
+})

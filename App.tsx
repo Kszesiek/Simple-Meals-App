@@ -22,7 +22,8 @@ export default function App() {
         <Stack.Navigator
           initialRouteName="MainCategories"
           screenOptions={{
-            headerStyle: {backgroundColor: '#C2B280'},
+            headerStyle: {backgroundColor: '#C2B280', },
+            headerTitleStyle: {fontWeight: 'bold'},
             headerTintColor: 'black',
             headerTitleAlign: 'center',
             contentStyle: {backgroundColor: "#F5F5DC"},
