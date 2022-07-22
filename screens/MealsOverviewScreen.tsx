@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import {View, StyleSheet, FlatList} from "react-native";
+import {View, StyleSheet, FlatList, Alert} from "react-native";
 import { MEALS, CATEGORIES } from "../data/dummy-data";
 import {useNavigation, useRoute, RouteProp} from "@react-navigation/native";
 import {NavigationProps, StackParamList} from "../App";
@@ -19,23 +19,27 @@ function MealsOverviewScreen() {
   useLayoutEffect(() => {
     let category: Category | undefined = CATEGORIES.find(category => category.id == categoryId);
     if (category === undefined) {
-      category = new Category("undefined", "Unrecognized category", "red");
+      navigation.goBack();
+      Alert.alert("Unrecognized category", "This category was not recognized, therefore you can't see its details.");
+      return
     }
     const categoryTitle: string = category.title;
     navigation.setOptions({headerTitle: categoryTitle})
   }, [categoryId, navigation])
 
-  function renderMealItem(itemData: {item: Meal}) {
-    return (
-      <View>
-        <MealItem meal={itemData.item} />
-      </View>
-    );
+  function pressHandler (meal: Meal) {
+    navigation.navigate("MealDetails", {
+      mealId: meal.id
+    });
   }
 
   return (
     <View style={styles.container}>
-      <FlatList data={displayedMeals} keyExtractor={item => item.id} renderItem={renderMealItem} />
+      <FlatList
+        data={displayedMeals}
+        keyExtractor={item => item.id}
+        renderItem={item => <MealItem meal={item.item} onPress={() => pressHandler(item.item)} />}
+      />
     </View>
   )
 }
@@ -45,6 +49,5 @@ export default MealsOverviewScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-  }
+  },
 });

@@ -1,23 +1,20 @@
 import { Text, View, Pressable, Image, StyleSheet, Platform } from "react-native";
 import Meal from "../models/meal";
 
-function MealItem({meal}: {meal: Meal}) {
+function MealItem({meal, onPress}: {meal: Meal, onPress: () => void}) {
   return (
-    <View>
-      <View style={styles.mealCard}>
-        <Pressable
-          android_ripple={{color: 'gray'}}
-          style={({pressed}: {pressed: boolean}) => pressed ? styles.buttonPressed : null}
-        >
-          {/*<View style={styles.titleCard}>*/}
-            <Image style={styles.image} source={{uri: meal.imageUrl}} />
-          {/*</View>*/}
-          <Text style={styles.title}>{meal.title}</Text>
-          <View style={styles.properties}>
-            <Text>{meal.duration} minutes  |  {meal.complexity}  |  {meal.affordability}</Text>
-          </View>
-        </Pressable>
-      </View>
+    <View style={styles.mealCard}>
+      <Pressable
+        android_ripple={{color: 'gray'}}
+        style={({pressed}: {pressed: boolean}) => pressed ? styles.buttonPressed : null}
+        onPress={onPress}
+      >
+        <Image style={styles.image} source={{uri: meal.imageUrl}} />
+        <Text style={styles.title}>{meal.title}</Text>
+        <View style={styles.properties}>
+          <Text>{meal.duration} minutes  |  {meal.complexity}  |  {meal.affordability}</Text>
+        </View>
+      </Pressable>
     </View>
   )
 }

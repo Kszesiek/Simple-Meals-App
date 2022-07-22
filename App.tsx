@@ -3,10 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
+import MealDetailsScreen from "./screens/MealDetailsScreen";
 
 export type StackParamList = {
   "MainCategories": undefined
   "MealOverview": { categoryId: string }
+  "MealDetails": { mealId: string }
 };
 export type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
@@ -34,6 +36,10 @@ export default function App() {
           <Stack.Screen
             name={"MealOverview"}
             component={MealsOverviewScreen}
+          />
+          <Stack.Screen
+            name={"MealDetails"}
+            component={MealDetailsScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
