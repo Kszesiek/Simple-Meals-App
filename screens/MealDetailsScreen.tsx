@@ -1,14 +1,16 @@
-import {useLayoutEffect} from "react";
+import {useContext, useLayoutEffect} from "react";
 import {Alert, Image, Platform, ScrollView, StyleSheet, Text, View} from "react-native";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {NavigationProps, StackParamList} from "../App";
 import { HeartButton } from "../Components/FillableButton";
 import {MEALS} from "../data/dummy-data";
 import Meal from "../models/meal";
+import {FavouritesContext} from "../store/context/favourites-context";
 
 function MealDetailsScreen() {
   const navigation = useNavigation<NavigationProps>();
   const route = useRoute<RouteProp<StackParamList, "MealDetails">>();
+  const favMealsContext = useContext(FavouritesContext);
 
   const mealId: string = route.params.mealId;
   let meal: Meal | undefined = MEALS.find(meal => meal.id === mealId);
@@ -17,6 +19,7 @@ function MealDetailsScreen() {
     Alert.alert("Unrecognized meal", "This meal was not recognized, therefore you can't see its details.");
     return <View />  // doesn't really matter since we do navigation.goBack(), it only needs to be a React component
   }
+  const isMealFavourite: boolean = favMealsContext.meal_ids.includes(mealId);
 
   useLayoutEffect(() => {
     meal = MEALS.find(meal => meal.id === mealId);
@@ -28,17 +31,21 @@ function MealDetailsScreen() {
     navigation.setOptions({headerTitle: meal.title})
   }, [mealId, navigation])
 
-  function headerButtonPressed() {
-    console.log("Pressed!");
+  function changeFavouriteStatus() {
+    if (isMealFavourite) {
+      favMealsContext.removeFavourite(mealId);
+    } else {
+      favMealsContext.addFavourite(mealId);
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        return <HeartButton onPress={headerButtonPressed} />
+        return <HeartButton isActive={isMealFavourite} onPress={changeFavouriteStatus} />
       }
     })
-  }, [navigation, headerButtonPressed])
+  }, [navigation, changeFavouriteStatus])
 
   const complexityEmoteMap = {
     'simple': "\u{1F604}",
